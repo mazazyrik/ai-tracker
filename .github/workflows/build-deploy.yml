@@ -62,6 +62,7 @@ jobs:
             export DB_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
             export REDIS_URL='redis://redis:6379/0'
             docker-compose -f docker-compose.prod.yml pull bot timers_worker cron_worker
-            docker-compose -f docker-compose.prod.yml up -d --no-deps bot timers_worker cron_worker
+            docker-compose -f docker-compose.prod.yml down
+            docker-compose -f docker-compose.prod.yml up -d
 
 
