@@ -1,0 +1,87 @@
+version: "3.9"
+
+services:
+  bot:
+    image: "mazazyrik/ai-tracker:latest"
+    restart: always
+    depends_on:
+      - db
+      - redis
+    environment:
+      - BOT_TOKEN
+      - DB_URL
+      - REDIS_URL
+      - DEFAULT_TIMEZONE
+      - YANDEX_GPT_API_KEY
+      - YANDEX_GPT_FOLDER_ID
+      - YANDEX_GPT_ENDPOINT
+      - DAILY_SUMMARY_HOUR
+      - DAILY_SUMMARY_MINUTE
+      - WEEKLY_REPORT_WEEKDAY
+      - WEEKLY_REPORT_HOUR
+      - REMINDERS_INTERVAL_HOURS
+      - MORNING_PLAN_HOUR
+      - MORNING_PLAN_MINUTE
+
+  timers_worker:
+    image: "mazazyrik/ai-tracker:latest"
+    restart: always
+    depends_on:
+      - db
+      - redis
+    command: python -m app.workers.timers_worker
+    environment:
+      - BOT_TOKEN
+      - DB_URL
+      - REDIS_URL
+      - DEFAULT_TIMEZONE
+      - YANDEX_GPT_API_KEY
+      - YANDEX_GPT_FOLDER_ID
+      - YANDEX_GPT_ENDPOINT
+      - DAILY_SUMMARY_HOUR
+      - DAILY_SUMMARY_MINUTE
+      - WEEKLY_REPORT_WEEKDAY
+      - WEEKLY_REPORT_HOUR
+      - REMINDERS_INTERVAL_HOURS
+      - MORNING_PLAN_HOUR
+      - MORNING_PLAN_MINUTE
+
+  cron_worker:
+    image: "mazazyrik/ai-tracker:latest"
+    restart: always
+    depends_on:
+      - db
+      - redis
+    command: python -m app.workers.cron_worker
+    environment:
+      - BOT_TOKEN
+      - DB_URL
+      - REDIS_URL
+      - DEFAULT_TIMEZONE
+      - YANDEX_GPT_API_KEY
+      - YANDEX_GPT_FOLDER_ID
+      - YANDEX_GPT_ENDPOINT
+      - DAILY_SUMMARY_HOUR
+      - DAILY_SUMMARY_MINUTE
+      - WEEKLY_REPORT_WEEKDAY
+      - WEEKLY_REPORT_HOUR
+      - REMINDERS_INTERVAL_HOURS
+      - MORNING_PLAN_HOUR
+      - MORNING_PLAN_MINUTE
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    restart: always
+
+volumes:
+  db_data:
