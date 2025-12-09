@@ -44,25 +44,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ai-tracker
-            export POSTGRES_USER='${{ secrets.POSTGRES_USER }}'
-            export POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}'
-            export POSTGRES_DB='${{ secrets.POSTGRES_DB }}'
-            export BOT_TOKEN='${{ secrets.BOT_TOKEN }}'
-            export DEFAULT_TIMEZONE='${{ secrets.DEFAULT_TIMEZONE }}'
-            export YANDEX_GPT_API_KEY='${{ secrets.YANDEX_GPT_API_KEY }}'
-            export YANDEX_GPT_FOLDER_ID='${{ secrets.YANDEX_GPT_FOLDER_ID }}'
-            export YANDEX_GPT_ENDPOINT='${{ secrets.YANDEX_GPT_ENDPOINT }}'
-            export DAILY_SUMMARY_HOUR='${{ secrets.DAILY_SUMMARY_HOUR }}'
-            export DAILY_SUMMARY_MINUTE='${{ secrets.DAILY_SUMMARY_MINUTE }}'
-            export WEEKLY_REPORT_WEEKDAY='${{ secrets.WEEKLY_REPORT_WEEKDAY }}'
-            export WEEKLY_REPORT_HOUR='${{ secrets.WEEKLY_REPORT_HOUR }}'
-            export REMINDERS_INTERVAL_HOURS='${{ secrets.REMINDERS_INTERVAL_HOURS }}'
-            export MORNING_PLAN_HOUR='${{ secrets.MORNING_PLAN_HOUR }}'
-            export MORNING_PLAN_MINUTE='${{ secrets.MORNING_PLAN_MINUTE }}'
-            export DB_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
-            export REDIS_URL='redis://redis:6379/0'
             docker-compose -f docker-compose.prod.yml pull bot timers_worker cron_worker
             docker-compose -f docker-compose.prod.yml down
             docker-compose -f docker-compose.prod.yml up -d
-
-
